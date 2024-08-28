@@ -1,0 +1,26 @@
+{
+    "database" : [
+        {
+            "name" : "customer",
+            "type" : "sqlite",
+            "connection" : "customer.db",
+            "username" : "",
+            "password" : ""
+        },
+        {
+            "name" : "loan",
+            "type" : "sqlite",
+            "connection" : "loan.db",
+            "username" : "",
+            "password" : ""
+        },
+        {
+            "name" : "payment",
+            "type" : "sqlite",
+            "connection" : "payment.db",
+            "username" : "",
+            "password" : ""
+        }
+    ],
+    "port" : "9000"
+}
