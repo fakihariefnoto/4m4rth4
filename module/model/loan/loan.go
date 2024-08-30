@@ -5,17 +5,21 @@ import "time"
 type LoanStatus int
 
 const (
-	LoanStatusInApproval LoanStatus = 0
-	LoanStatusOngoing    LoanStatus = 1
-	LoanStatusFinish     LoanStatus = 2
+	LoanStatusInApproval LoanStatus = 1
+	LoanStatusOngoing    LoanStatus = 2
+	LoanStatusFinish     LoanStatus = 3
+
+	LoanStatusDefault LoanStatus = 0
 )
 
-type LoanSDetailtatus int
+type LoanDetailStatus int
 
 const (
-	LoanDetailStatusPending   LoanSDetailtatus = 0
-	LoanDetailStatusPaid      LoanSDetailtatus = 1
-	LoanDetailStatusCancelled LoanSDetailtatus = 2
+	LoanDetailStatusUnpaid    LoanDetailStatus = 1
+	LoanDetailStatusPaid      LoanDetailStatus = 2
+	LoanDetailStatusCancelled LoanDetailStatus = 3
+
+	LoanDetailStatusDefault LoanDetailStatus = 0
 )
 
 type (
@@ -32,10 +36,11 @@ type (
 	}
 
 	LoanDetails struct {
+		ID        int64
 		LoanID    int64
 		Name      string
 		Amount    float64
-		Status    LoanSDetailtatus
+		Status    LoanDetailStatus
 		StartDate time.Time
 		EndDate   time.Time
 		PaymentID int64

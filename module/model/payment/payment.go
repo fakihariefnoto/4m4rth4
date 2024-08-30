@@ -11,8 +11,9 @@ const (
 type (
 	Payment struct {
 		ID      int64
-		Title   string
+		Details string
 		Summary string
+		Amount  float64
 		Status  PaymentStatus
 	}
 )

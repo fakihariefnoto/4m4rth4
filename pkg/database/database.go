@@ -6,11 +6,14 @@ import (
 	"log"
 	"os"
 
+	"github.com/fakihariefnoto/4m4rth4/pkg/config"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var (
-	mapDB map[ConnectionName]*sql.DB
+	mapDB         map[ConnectionName]*sql.DB
+	mapConnString map[ConnectionName]string
 )
 
 type (
@@ -29,28 +32,43 @@ const (
 
 func init() {
 	mapDB = make(map[ConnectionName]*sql.DB)
+	mapConnString = make(map[ConnectionName]string)
 }
 
 func CreateDB(dbName string) error {
 	if _, err := os.Stat(dbName); os.IsExist(err) {
-		err = os.Remove(dbName)
-		if err != nil {
-			return err
-		}
+		// err = os.Remove(dbName)
+		// if err != nil {
+		// 	return err
+		// }
+		log.Println("CreateDB : DB ", dbName, " Already exist")
+		return nil
 	}
+
+	log.Println("CreateDB : DB Not exsit, Creating.. ", dbName)
+
 	_, err := os.Create(dbName)
 	if err != nil {
 		return err
 	}
+
+	log.Println("CreateDB :  DB ", dbName, " Created Successfully!")
 	return nil
 }
 
-func Init()
+func Init(conf config.Config) {
+	for _, db := range conf.DB {
+		mapConnString[ConnectionName(db.Name)] = db.ConnectionString
+	}
+}
 
 func AddConnection(dbName ConnectionName) (err error) {
-	db, err := sql.Open("sqlite3", string(dbName))
+
+	connString := mapConnString[dbName]
+
+	db, err := sql.Open("sqlite3", connString)
 	if err != nil {
-		log.Fatal("connect, ", err)
+		return err
 	}
 	mapDB[dbName] = db
 	return
@@ -99,3 +117,46 @@ func (d *dbConn) Exec(query string, args ...interface{}) (sql.Result, error) {
 // 		log.Fatalln("createTable, ", err)
 // 	}
 // }
+
+/*
+
+CREATE TABLE customer (
+    customer_id INTEGER PRIMARY KEY,
+    full_name TEXT NOT NULL,
+    status INTEGER,
+    credit_status INTEGER
+);
+
+CREATE TABLE loan (
+    ID INTEGER PRIMARY KEY,
+    customer_id INTEGER,
+    name TEXT,
+    amount REAL,
+    amount_interest REAL,
+    annual_rate_precentage REAL,
+    start_date DATE,
+    end_date DATE,
+    status INTEGER,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+
+CREATE TABLE loan_details (
+	ID INTEGER PRIMARY KEY
+    loan_id INTEGER,
+    name TEXT,
+    amount REAL,
+    status INTEGER,
+    start_date DATE,
+    end_date DATE,
+    payment_id INTEGER,
+    FOREIGN KEY (loan_id) REFERENCES loan(ID)
+);
+
+CREATE TABLE payment_history (
+    payment_id INTEGER PRIMARY KEY,
+    name TEXT,
+    amount REAL,
+    status TEXT
+);
+
+*/
