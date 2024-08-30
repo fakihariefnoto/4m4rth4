@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	loanModel "github.com/fakihariefnoto/4m4rth4/module/model/loan"
+	loanModel "billingapp/internal/model/loan"
 )
 
 func (l *loan) GetLoanListByCustomerID(ID int64, status loanModel.LoanStatus) (resp []LoanData, err error) {
@@ -13,7 +13,7 @@ func (l *loan) GetLoanListByCustomerID(ID int64, status loanModel.LoanStatus) (r
 		return nil, errors.New("Customer ID not found")
 	}
 
-	data, err := l.loanRepo.GetLoanByCustomerID(context.Background(), ID)
+	data, err := l.loanRepo.GetLoanByCustomerID(context.Background(), ID, status)
 	if err != nil {
 		return nil, err
 	}

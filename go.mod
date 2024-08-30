@@ -1,4 +1,4 @@
-module github.com/fakihariefnoto/4m4rth4
+module billingapp
 
 go 1.22.6
 

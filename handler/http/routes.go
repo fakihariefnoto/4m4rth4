@@ -1,7 +1,7 @@
 package http
 
 import (
-	restMethod "github.com/fakihariefnoto/4m4rth4/module/presenter/rest"
+	restMethod "billingapp/internal/presenter/rest"
 )
 
 func (h *httpHandler) AssignRoutes(httpPresenter restMethod.IPresenter) {

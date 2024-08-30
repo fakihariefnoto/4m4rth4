@@ -3,7 +3,7 @@ package loan
 import (
 	"time"
 
-	loanModel "github.com/fakihariefnoto/4m4rth4/module/model/loan"
+	loanModel "billingapp/internal/model/loan"
 )
 
 const (
@@ -88,7 +88,7 @@ func LoanStatusFromString(status LoanStatusString) loanModel.LoanStatus {
 	case LoanStatusFinishString:
 		return loanModel.LoanStatusFinish
 	default:
-		return loanModel.LoanStatus
+		return loanModel.LoanStatusDefault
 	}
 }
 
@@ -114,6 +114,6 @@ func LoanDetailsStatusFromString(status LoanDetailStatusString) loanModel.LoanDe
 	case LoanDetailStatusCancelledString:
 		return loanModel.LoanDetailStatusCancelled
 	default:
-		return loanModel.LoanDetailStatus
+		return loanModel.LoanDetailStatusDefault
 	}
 }

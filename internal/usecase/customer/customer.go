@@ -2,7 +2,7 @@ package customer
 
 import (
 	// customerModel "billing/internal/model/customer/"
-	customerRepository "github.com/fakihariefnoto/4m4rth4/module/repository/customer"
+	customerRepository "billingapp/internal/repository/customer"
 )
 
 type (

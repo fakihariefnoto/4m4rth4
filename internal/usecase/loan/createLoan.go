@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	loanModel "github.com/fakihariefnoto/4m4rth4/module/model/loan"
+	loanModel "billingapp/internal/model/loan"
 )
 
 func (l *loan) CreateLoan(loanReq LoanRequest) error {
@@ -28,7 +28,7 @@ func (l *loan) CreateLoan(loanReq LoanRequest) error {
 	}
 
 	timeToPay := now
-	var arrLoanDetails []loanModel.Loan
+	var arrLoanDetails []loanModel.LoanDetails
 
 	for i := 1; i <= NumberOfLoanWeeks; i++ {
 		timeToPay := timeToPay.Add(spanTime)

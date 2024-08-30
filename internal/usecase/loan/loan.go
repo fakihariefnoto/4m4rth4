@@ -1,8 +1,8 @@
 package loan
 
 import (
-	loanModel "github.com/fakihariefnoto/4m4rth4/module/model/loan"
-	loanRepository "github.com/fakihariefnoto/4m4rth4/module/repository/loan"
+	loanModel "billingapp/internal/model/loan"
+	loanRepository "billingapp/internal/repository/loan"
 
 	"time"
 )
@@ -17,7 +17,7 @@ type (
 	}
 
 	loan struct {
-		loanRepo loanRepository.Iloan
+		loanRepo loanRepository.ILoan
 	}
 )
 

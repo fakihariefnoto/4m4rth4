@@ -1,20 +1,20 @@
 package main
 
 import (
-	configPkg "github.com/fakihariefnoto/4m4rth4/pkg/config"
-	databasePkg "github.com/fakihariefnoto/4m4rth4/pkg/database"
+	configPkg "billingapp/pkg/config"
+	databasePkg "billingapp/service/database"
 
-	customerRepository "github.com/fakihariefnoto/4m4rth4/module/repository/customer"
-	loanRepository "github.com/fakihariefnoto/4m4rth4/module/repository/loan"
-	paymentRepository "github.com/fakihariefnoto/4m4rth4/module/repository/payment"
+	customerRepository "billingapp/internal/repository/customer"
+	loanRepository "billingapp/internal/repository/loan"
+	paymentRepository "billingapp/internal/repository/payment"
 
-	customerUsecase "github.com/fakihariefnoto/4m4rth4/module/usecase/customer"
-	loanUsecase "github.com/fakihariefnoto/4m4rth4/module/usecase/loan"
-	paymentUsecase "github.com/fakihariefnoto/4m4rth4/module/usecase/payment"
+	customerUsecase "billingapp/internal/usecase/customer"
+	loanUsecase "billingapp/internal/usecase/loan"
+	paymentUsecase "billingapp/internal/usecase/payment"
 
-	presenterHttp "github.com/fakihariefnoto/4m4rth4/module/presenter/rest"
+	presenterHttp "billingapp/internal/presenter/rest"
 
-	httpHandler "github.com/fakihariefnoto/4m4rth4/handler/http"
+	httpHandler "billingapp/handler/http"
 
 	"log"
 )
@@ -43,9 +43,9 @@ func main() {
 	paymentDBConn, err := databasePkg.GetDBConn(databasePkg.PaymentDB)
 	chekErrMain("get payment db conn", err)
 
-	customerRepo := customerRepository.New(customerDBConn)
-	loanRepo := loanRepository.New(loanDBConn)
-	paymentRepo := paymentRepository.New(paymentDBConn)
+	customerRepo := customerRepository.New(customerDBConn.DB)
+	loanRepo := loanRepository.New(loanDBConn.DB)
+	paymentRepo := paymentRepository.New(paymentDBConn.DB)
 
 	loanUse := loanUsecase.New(loanRepo)
 	customerUse := customerUsecase.New(customerRepo)
@@ -62,11 +62,5 @@ func main() {
 func chekErrMain(label string, err error) {
 	if err != nil {
 		log.Fatalln("Init process : ", label, " error -> ", err)
-	}
-}
-
-func checkDB(cfg configPkg.Config) {
-	for _, db := range cfg.DB {
-		databasePkg.CreateDB(db.Name + ".sql")
 	}
 }

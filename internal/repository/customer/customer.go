@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	customerModel "github.com/fakihariefnoto/4m4rth4/module/model/customer"
+	customerModel "billingapp/internal/model/customer"
 )
 
 type (

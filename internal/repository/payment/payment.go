@@ -1,7 +1,7 @@
 package payment
 
 import (
-	paymentModel "github.com/fakihariefnoto/4m4rth4/module/model/payment"
+	paymentModel "billingapp/internal/model/payment"
 
 	"context"
 	"database/sql"

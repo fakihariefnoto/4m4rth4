@@ -3,9 +3,9 @@ package rest
 import (
 	"github.com/gofiber/fiber/v2"
 
-	customerUsecase "github.com/fakihariefnoto/4m4rth4/module/usecase/customer"
-	loanUsecase "github.com/fakihariefnoto/4m4rth4/module/usecase/loan"
-	paymentUsecase "github.com/fakihariefnoto/4m4rth4/module/usecase/payment"
+	customerUsecase "billingapp/internal/usecase/customer"
+	loanUsecase "billingapp/internal/usecase/loan"
+	paymentUsecase "billingapp/internal/usecase/payment"
 )
 
 type (

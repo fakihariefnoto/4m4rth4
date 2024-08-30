@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	loanModel "github.com/fakihariefnoto/4m4rth4/module/model/loan"
+	loanModel "billingapp/internal/model/loan"
 
 	"context"
 	"database/sql"
@@ -14,10 +14,11 @@ type (
 	ILoan interface {
 		GetLoanByCustomerID(ctx context.Context, customerID int64, status loanModel.LoanStatus) (res []loanModel.Loan, err error)
 		GetLoanByID(ctx context.Context, loanID int64) (loanModel.Loan, error)
-		GetLoanDetailsByID(ctx context.Context, loanID int64) (loanModel.LoanDetail, error)
+		GetLoanDetailsByID(ctx context.Context, loanID int64) (loanModel.LoanDetails, error)
+		GetLoanDetailsByLoanID(ctx context.Context, loanID int64) ([]loanModel.LoanDetails, error)
 		CreateLoanWithTx(ctx context.Context, loan loanModel.Loan, arrLoan []loanModel.LoanDetails) error
-		UpdateLoanStatus(ctx context.Context, loanID int64, status loanModel.PaymentStatus) error
-		UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, status loanModel.PaymentStatus) error
+		UpdateLoanStatus(ctx context.Context, loanID int64, status loanModel.LoanStatus) error
+		UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, status loanModel.LoanDetailStatus) error
 	}
 
 	loan struct {
@@ -90,7 +91,7 @@ func (q *loan) GetLoanByID(ctx context.Context, loanID int64) (loanModel.Loan, e
 	return i, err
 }
 
-func (q *loan) GetLoanDetailsByID(ctx context.Context, loanDetailsID int64) (loanModel.LoanDetail, error) {
+func (q *loan) GetLoanDetailsByID(ctx context.Context, loanDetailsID int64) (loanModel.LoanDetails, error) {
 	row := q.db.QueryRowContext(ctx, queryGetLoanDetails, loanDetailsID)
 	var i loanModel.LoanDetails
 	err := row.Scan(
@@ -240,12 +241,12 @@ func (q *loan) insertMultiLoanDetailsQueryBuilder(arrLoan []loanModel.LoanDetail
 	return strings.Join(arrFields, ",")
 }
 
-func (q *loan) UpdateLoanStatus(ctx context.Context, loanID int64, status loanModel.PaymentStatus) error {
+func (q *loan) UpdateLoanStatus(ctx context.Context, loanID int64, status loanModel.LoanStatus) error {
 	_, err := q.db.ExecContext(ctx, execUpdateLoanStatus, status, loanID)
 	return err
 }
 
-func (q *loan) UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, status loanModel.PaymentStatus) error {
+func (q *loan) UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, status loanModel.LoanDetailStatus) error {
 	_, err := q.db.ExecContext(ctx, execUpdateLoanDetailsStatus,
 		loanDetailsID,
 		status,

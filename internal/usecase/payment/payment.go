@@ -2,13 +2,13 @@ package payment
 
 import (
 	//paymentModel "billing/internal/model/payment/"
-	loanRepository "github.com/fakihariefnoto/4m4rth4/module/repository/loan"
-	paymentRepository "github.com/fakihariefnoto/4m4rth4/module/repository/payment"
+	loanRepository "billingapp/internal/repository/loan"
+	paymentRepository "billingapp/internal/repository/payment"
 )
 
 type (
 	IPayment interface {
-		MakePayment(customerID int64) error
+		MakePayment(paymentReq PaymentReq) error
 	}
 
 	payment struct {

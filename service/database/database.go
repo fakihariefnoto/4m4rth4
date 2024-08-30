@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/fakihariefnoto/4m4rth4/pkg/config"
+	"billingapp/pkg/config"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -20,7 +20,7 @@ type (
 	ConnectionName string
 
 	dbConn struct {
-		db *sql.DB
+		DB *sql.DB
 	}
 )
 
@@ -78,7 +78,16 @@ func GetDBConn(dbName ConnectionName) (*dbConn, error) {
 	if mapDB[dbName] == nil {
 		return nil, errors.New("DB not exist")
 	}
-	return &dbConn{db: mapDB[dbName]}, nil
+	return &dbConn{DB: mapDB[dbName]}, nil
+}
+
+func Connect(dbName string) (db *sql.DB, err error) {
+	log.Println("connect ", dbName)
+	db, err = sql.Open("sqlite3", dbName)
+	if err != nil {
+		log.Fatal("connect, ", err)
+	}
+	return
 }
 
 func Disconnect(dbName ConnectionName) error {
@@ -92,12 +101,12 @@ func Disconnect(dbName ConnectionName) error {
 }
 
 func (d *dbConn) Select(query string, args ...interface{}) (*sql.Rows, error) {
-	res, err := d.db.Query(query, args...)
+	res, err := d.DB.Query(query, args...)
 	return res, err
 }
 
 func (d *dbConn) Exec(query string, args ...interface{}) (sql.Result, error) {
-	res, err := d.db.Exec(query, args...)
+	res, err := d.DB.Exec(query, args...)
 	return res, err
 }
 
@@ -120,43 +129,7 @@ func (d *dbConn) Exec(query string, args ...interface{}) (sql.Result, error) {
 
 /*
 
-CREATE TABLE customer (
-    customer_id INTEGER PRIMARY KEY,
-    full_name TEXT NOT NULL,
-    status INTEGER,
-    credit_status INTEGER
-);
 
-CREATE TABLE loan (
-    ID INTEGER PRIMARY KEY,
-    customer_id INTEGER,
-    name TEXT,
-    amount REAL,
-    amount_interest REAL,
-    annual_rate_precentage REAL,
-    start_date DATE,
-    end_date DATE,
-    status INTEGER,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
-);
 
-CREATE TABLE loan_details (
-	ID INTEGER PRIMARY KEY
-    loan_id INTEGER,
-    name TEXT,
-    amount REAL,
-    status INTEGER,
-    start_date DATE,
-    end_date DATE,
-    payment_id INTEGER,
-    FOREIGN KEY (loan_id) REFERENCES loan(ID)
-);
 
-CREATE TABLE payment_history (
-    payment_id INTEGER PRIMARY KEY,
-    name TEXT,
-    amount REAL,
-    status TEXT
-);
-
-*/
+ */
