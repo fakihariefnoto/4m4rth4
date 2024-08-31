@@ -7,6 +7,9 @@ import (
 
 type (
 	ICustomer interface {
+		GetCustomerData(customerID int64) (resp CustomerDetail, err error)
+		IsDelinquent(customerID int64) (resp CustomerDelinquent, err error)
+		CreateCustomer(name string) (resp CustomerDetail, err error)
 	}
 
 	customer struct {

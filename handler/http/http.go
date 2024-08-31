@@ -19,6 +19,6 @@ func New() *httpHandler {
 }
 
 func (h *httpHandler) Start(port string) {
-	log.Printf("Starting at port %v ...\n", port)
+	log.Printf("Starting at port :%v\n", port)
 	log.Fatal(h.app.Listen(":" + port))
 }

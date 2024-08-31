@@ -14,11 +14,11 @@ type (
 	ILoan interface {
 		GetLoanByCustomerID(ctx context.Context, customerID int64, status loanModel.LoanStatus) (res []loanModel.Loan, err error)
 		GetLoanByID(ctx context.Context, loanID int64) (loanModel.Loan, error)
-		GetLoanDetailsByID(ctx context.Context, loanID int64) (loanModel.LoanDetails, error)
+		GetLoanDetailsByID(ctx context.Context, loanDetailsID int64) (loanModel.LoanDetails, error)
 		GetLoanDetailsByLoanID(ctx context.Context, loanID int64) ([]loanModel.LoanDetails, error)
 		CreateLoanWithTx(ctx context.Context, loan loanModel.Loan, arrLoan []loanModel.LoanDetails) error
 		UpdateLoanStatus(ctx context.Context, loanID int64, status loanModel.LoanStatus) error
-		UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, status loanModel.LoanDetailStatus) error
+		UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, paymentID int64, status loanModel.LoanDetailStatus) error
 	}
 
 	loan struct {
@@ -246,9 +246,10 @@ func (q *loan) UpdateLoanStatus(ctx context.Context, loanID int64, status loanMo
 	return err
 }
 
-func (q *loan) UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, status loanModel.LoanDetailStatus) error {
+func (q *loan) UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, paymentID int64, status loanModel.LoanDetailStatus) error {
 	_, err := q.db.ExecContext(ctx, execUpdateLoanDetailsStatus,
 		loanDetailsID,
+		paymentID,
 		status,
 	)
 	return err

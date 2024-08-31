@@ -3,18 +3,19 @@ package customer
 const (
 	queryGetCustomerByID = `
 		SELECT
-			customer_id, full_name, status, credit_status 
+			ID, full_name, status, credit_status 
 		FROM
 			customer
 		WHERE
-			customer_id = ?
+			ID = ?
 	`
 
 	execCustomer = `
 		INSERT INTO 
-			customer (customer_id, full_name, status, credit_status)
+			customer (full_name, status, credit_status)
 		VALUES
-			(?, ?, ?, ?)
+			(?, ?, ?)
+		RETURNING ID
 	`
 
 	execUpdateCustomerCreditStatus = `
@@ -23,6 +24,6 @@ const (
 		SET
 			credit_status = ?
 		WHERE
-			customer_id = ?
+			ID = ?
 	`
 )

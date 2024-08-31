@@ -27,6 +27,7 @@ type (
 		Details              []LoanDataDetails `json:"details"`
 		TotalPaid            float64           `json:"total_paid"`
 		TotalBorrowed        float64           `json:"total_borrowed"`
+		OutStanding          float64           `json:"outstanding_balance"`
 	}
 
 	LoanDataDetails struct {

@@ -10,7 +10,7 @@ import (
 type (
 	ICustomer interface {
 		GetCustomer(ctx context.Context, ID int64) (customerModel.Customer, error)
-		InsertCustomer(ctx context.Context, arg customerModel.Customer) error
+		InsertCustomer(ctx context.Context, arg customerModel.Customer) (int64, error)
 		UpdateCustomerCreditStatus(ctx context.Context, ID int64, creditStatus string) error
 	}
 
@@ -36,14 +36,17 @@ func (q *customer) GetCustomer(ctx context.Context, ID int64) (customerModel.Cus
 	return i, err
 }
 
-func (q *customer) InsertCustomer(ctx context.Context, arg customerModel.Customer) error {
+func (q *customer) InsertCustomer(ctx context.Context, arg customerModel.Customer) (int64, error) {
 	// ID will be auto increment
-	_, err := q.db.ExecContext(ctx, execCustomer,
+	res, err := q.db.ExecContext(ctx, execCustomer,
 		arg.FullName,
 		arg.Status,
 		arg.CreditStatus,
 	)
-	return err
+	if err != nil {
+		return 0, err
+	}
+	return res.LastInsertId()
 }
 
 func (q *customer) UpdateCustomerCreditStatus(ctx context.Context, ID int64, creditStatus string) error {

@@ -8,12 +8,17 @@ import (
 	loanModel "billingapp/internal/model/loan"
 )
 
-func (l *loan) GetLoanListByCustomerID(ID int64, status loanModel.LoanStatus) (resp []LoanData, err error) {
+func (l *loan) GetLoanListByCustomerID(ID int64, status ...loanModel.LoanStatus) (resp []LoanData, err error) {
 	if ID == 0 {
 		return nil, errors.New("Customer ID not found")
 	}
 
-	data, err := l.loanRepo.GetLoanByCustomerID(context.Background(), ID, status)
+	var getFirstStatus loanModel.LoanStatus
+	if len(status) > 0 {
+		getFirstStatus = status[0]
+	}
+
+	data, err := l.loanRepo.GetLoanByCustomerID(context.Background(), ID, getFirstStatus)
 	if err != nil {
 		return nil, err
 	}
@@ -90,6 +95,8 @@ func (l *loan) GetLoanByID(ID int64) (resp LoanData, err error) {
 			Status:    status,
 		})
 	}
+
+	resp.OutStanding = resp.TotalBorrowed - resp.TotalPaid
 
 	return
 }

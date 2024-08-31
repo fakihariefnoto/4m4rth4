@@ -16,13 +16,16 @@ type (
 	}
 
 	IPresenter interface {
-		GetOutstanding(c *fiber.Ctx) error
-		IsDelinquent(c *fiber.Ctx) error
 		MakePayment(c *fiber.Ctx) error
+
+		GetCustomer(c *fiber.Ctx) error
+		CreateCustomer(c *fiber.Ctx) error
+		IsDelinquent(c *fiber.Ctx) error
+
 		CreateLoan(c *fiber.Ctx) error
 		ListLoan(c *fiber.Ctx) error
 		GetLoanDetails(c *fiber.Ctx) error
-		GetCustomer(c *fiber.Ctx) error
+		GetOutstanding(c *fiber.Ctx) error
 	}
 )
 

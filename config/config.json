@@ -3,21 +3,21 @@
         {
             "name" : "customer",
             "type" : "sqlite",
-            "connection" : "customer.db",
+            "connection" : "sql/customer.db",
             "username" : "",
             "password" : ""
         },
         {
             "name" : "loan",
             "type" : "sqlite",
-            "connection" : "loan.db",
+            "connection" : "sql/loan.db",
             "username" : "",
             "password" : ""
         },
         {
             "name" : "payment",
             "type" : "sqlite",
-            "connection" : "payment.db",
+            "connection" : "sql/payment.db",
             "username" : "",
             "password" : ""
         }

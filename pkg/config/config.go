@@ -24,7 +24,7 @@ type (
 var config *Config
 
 func Init() error {
-	fileName := "config.json"
+	fileName := "config/config.json"
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		return errors.New("Config not found")
 	}

@@ -3,7 +3,7 @@ package payment
 const (
 	queryGetPaymentHistoryByID = `
 		SELECT
-			payment_id, summary, details, amount, status 
+			payment_id, customer_id, summary, details, amount, status 
 		FROM
 			payment_history
 		WHERE
@@ -12,7 +12,7 @@ const (
 
 	execInsertPaymentHistory = `
 		INSERT INTO 
-			payment_history (summary, details, amount, status)
+			payment_history (customer_id, summary, details, amount, status)
 		VALUES
 			(?, ?, ?, ?)
 		RETURNING

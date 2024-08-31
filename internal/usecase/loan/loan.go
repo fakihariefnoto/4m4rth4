@@ -9,7 +9,7 @@ import (
 
 type (
 	ILoan interface {
-		GetLoanListByCustomerID(ID int64, status loanModel.LoanStatus) (resp []LoanData, err error)
+		GetLoanListByCustomerID(ID int64, status ...loanModel.LoanStatus) (resp []LoanData, err error)
 		CreateLoan(loanReq LoanRequest) error
 		GetLoanByID(ID int64) (resp LoanData, err error)
 		UpdateLoanStatus(loanReq LoanRequest) error

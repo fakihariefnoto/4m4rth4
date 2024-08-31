@@ -10,10 +10,11 @@ const (
 
 type (
 	Payment struct {
-		ID      int64
-		Details string
-		Summary string
-		Amount  float64
-		Status  PaymentStatus
+		ID         int64
+		CustomerID int64
+		Details    string
+		Summary    string
+		Amount     float64
+		Status     PaymentStatus
 	}
 )

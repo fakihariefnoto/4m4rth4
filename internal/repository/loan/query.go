@@ -104,7 +104,8 @@ const (
 		UPDATE
 			loan_details
 		SET
-			status = ?
+			status = ?,
+			payment_id = ?
 		WHERE
 			loan_id = ?`
 

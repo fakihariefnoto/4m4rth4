@@ -36,7 +36,7 @@ func init() {
 }
 
 func CreateDB(dbName string) error {
-	if _, err := os.Stat(dbName); os.IsExist(err) {
+	if _, err := os.Stat(dbName); os.IsExist(err) || err == nil {
 		// err = os.Remove(dbName)
 		// if err != nil {
 		// 	return err
