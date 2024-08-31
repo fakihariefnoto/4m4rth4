@@ -108,11 +108,12 @@ func (q *loan) GetLoanDetailsByID(ctx context.Context, loanDetailsID int64) (loa
 }
 
 func (q *loan) GetLoanDetailsByLoanID(ctx context.Context, loanID int64) ([]loanModel.LoanDetails, error) {
-	rows, err := q.db.QueryContext(ctx, queryGetLoanDetailsByLoanID, loanID)
+	rows, err := q.db.Query(queryGetLoanDetailsByLoanID, loanID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
+
 	var items []loanModel.LoanDetails
 	for rows.Next() {
 		var i loanModel.LoanDetails
@@ -130,6 +131,7 @@ func (q *loan) GetLoanDetailsByLoanID(ctx context.Context, loanID int64) ([]loan
 		}
 		items = append(items, i)
 	}
+
 	if err := rows.Close(); err != nil {
 		return nil, err
 	}
@@ -140,7 +142,7 @@ func (q *loan) GetLoanDetailsByLoanID(ctx context.Context, loanID int64) ([]loan
 }
 
 func (q *loan) CreateLoanWithTx(ctx context.Context, loan loanModel.Loan, arrLoan []loanModel.LoanDetails) error {
-	tx, err := q.db.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelDefault})
+	tx, err := q.db.Begin()
 	defer tx.Rollback()
 
 	if err != nil {
@@ -158,7 +160,11 @@ func (q *loan) CreateLoanWithTx(ctx context.Context, loan loanModel.Loan, arrLoa
 	}
 
 	err = tx.Commit()
-	return err
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (q *loan) insertLoan(ctx context.Context, tx *sql.Tx, arg loanModel.Loan) (ID int64, err error) {
@@ -169,8 +175,8 @@ func (q *loan) insertLoan(ctx context.Context, tx *sql.Tx, arg loanModel.Loan) (
 			arg.Amount,
 			arg.AmountInterest,
 			arg.AnnualRatePrecentage,
-			arg.StartDate,
-			arg.EndDate,
+			arg.StartDate.Format("2006-01-02 15:04:05"),
+			arg.EndDate.Format("2006-01-02 15:04:05"),
 			arg.Status,
 		)
 
@@ -181,8 +187,7 @@ func (q *loan) insertLoan(ctx context.Context, tx *sql.Tx, arg loanModel.Loan) (
 		return res.LastInsertId()
 	}
 
-	res, err := tx.ExecContext(ctx, execInserLoan,
-		arg.ID,
+	res := tx.QueryRow(execInserLoan,
 		arg.CustomerID,
 		arg.Name,
 		arg.Amount,
@@ -193,11 +198,12 @@ func (q *loan) insertLoan(ctx context.Context, tx *sql.Tx, arg loanModel.Loan) (
 		arg.Status,
 	)
 
+	err = res.Scan(&ID)
 	if err != nil {
 		return ID, err
 	}
 
-	return res.LastInsertId()
+	return
 
 }
 
@@ -223,8 +229,10 @@ func (q *loan) insertMultiLoanDetails(ctx context.Context, tx *sql.Tx, loanID in
 		return err
 	}
 
-	_, err := tx.ExecContext(ctx, query)
+	_, err := tx.Exec(query)
 	return err
+
+	// return row.Err()
 }
 
 func (q *loan) insertMultiLoanDetailsQueryBuilder(arrLoan []loanModel.LoanDetails, loanID int64) (query string) {
@@ -235,7 +243,7 @@ func (q *loan) insertMultiLoanDetailsQueryBuilder(arrLoan []loanModel.LoanDetail
 		if loanID == 0 {
 			loanIDOverride = ld.LoanID
 		}
-		tempField := fmt.Sprintf("(%d, %s, %.2f, %d, %v, %v, %d)", loanIDOverride, ld.Name, ld.Amount, ld.Status, ld.StartDate, ld.EndDate, ld.PaymentID)
+		tempField := fmt.Sprintf("(%d, '%s', %.2f, %d, '%v', '%v', %d)", loanIDOverride, ld.Name, ld.Amount, ld.Status, ld.StartDate.Format("2006-01-02 15:04:05"), ld.EndDate.Format("2006-01-02 15:04:05"), ld.PaymentID)
 		arrFields = append(arrFields, tempField)
 	}
 	return strings.Join(arrFields, ",")

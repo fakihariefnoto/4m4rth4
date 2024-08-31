@@ -1,7 +1,6 @@
 package rest
 
 import (
-	"encoding/json"
 	"log"
 
 	customerUsecase "billingapp/internal/usecase/customer"
@@ -39,19 +38,10 @@ func (p *presenter) CreateCustomer(c *fiber.Ctx) error {
 		})
 	}
 
-	dataResp, err := json.Marshal(resp)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": true,
-			"msg":   err.Error(),
-			"data":  nil,
-		})
-	}
-
 	// Return status 200 OK.
 	return c.JSON(fiber.Map{
 		"error": false,
 		"msg":   nil,
-		"data":  dataResp,
+		"data":  resp,
 	})
 }

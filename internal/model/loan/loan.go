@@ -36,13 +36,15 @@ type (
 	}
 
 	LoanDetails struct {
-		ID        int64
-		LoanID    int64
-		Name      string
-		Amount    float64
-		Status    LoanDetailStatus
-		StartDate time.Time
-		EndDate   time.Time
-		PaymentID int64
+		ID              int64
+		LoanID          int64
+		Name            string
+		Amount          float64
+		Status          LoanDetailStatus
+		StartDateString string
+		StartDate       time.Time
+		EndDateString   string
+		EndDate         time.Time
+		PaymentID       int64
 	}
 )

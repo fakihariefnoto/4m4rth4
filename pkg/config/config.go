@@ -13,11 +13,11 @@ type (
 	}
 
 	Database struct {
-		Name             string
-		DBType           string
-		ConnectionString string
-		Username         string
-		Password         string
+		Name             string `json:"name"`
+		DBType           string `json:"type"`
+		ConnectionString string `json:"connection"`
+		Username         string `json:"username"`
+		Password         string `json:"password"`
 	}
 )
 

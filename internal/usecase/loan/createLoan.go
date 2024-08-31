@@ -31,7 +31,7 @@ func (l *loan) CreateLoan(loanReq LoanRequest) error {
 	var arrLoanDetails []loanModel.LoanDetails
 
 	for i := 1; i <= NumberOfLoanWeeks; i++ {
-		timeToPay := timeToPay.Add(spanTime)
+		timeToPay = timeToPay.Add(spanTime)
 		deadlinePayTime := timeToPay.Add(spanTime)
 
 		if i == 1 {

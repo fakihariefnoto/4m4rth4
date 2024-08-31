@@ -14,7 +14,7 @@ const (
 		INSERT INTO 
 			payment_history (customer_id, summary, details, amount, status)
 		VALUES
-			(?, ?, ?, ?)
+			(?, ?, ?, ?, ?)
 		RETURNING
 			payment_id
 	`

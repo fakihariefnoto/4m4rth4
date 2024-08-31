@@ -6,10 +6,10 @@ import (
 
 type (
 	CustomerDetail struct {
-		ID           int64             `json:"id"`
-		FullName     string            `json:"full_name"`
-		Status       CustomerStatusStr `json:"status"`
-		CreditStatus CreditStatusStr   `json:"credit_status"`
+		ID           int64             `json:"id,omitempty"`
+		FullName     string            `json:"full_name,omitempty"`
+		Status       CustomerStatusStr `json:"status,omitempty"`
+		CreditStatus CreditStatusStr   `json:"credit_status,omitempty"`
 	}
 
 	CustomerDelinquent struct {

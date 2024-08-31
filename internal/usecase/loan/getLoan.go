@@ -22,12 +22,14 @@ func (l *loan) GetLoanListByCustomerID(ID int64, status ...loanModel.LoanStatus)
 	if err != nil {
 		return nil, err
 	}
+
 	for _, loanData := range data {
 		startDate := loanData.StartDate.Format("2006-01-02 15:04:05")
 		endDate := loanData.EndDate.Format("2006-01-02 15:04:05")
 
 		resp = append(resp, LoanData{
 			ID:                   loanData.ID,
+			CustomerID:           loanData.CustomerID,
 			Name:                 loanData.Name,
 			Amount:               loanData.Amount,
 			AmountInterest:       loanData.AmountInterest,
@@ -38,7 +40,7 @@ func (l *loan) GetLoanListByCustomerID(ID int64, status ...loanModel.LoanStatus)
 		})
 	}
 
-	return []LoanData{}, nil
+	return resp, nil
 }
 
 func (l *loan) GetLoanByID(ID int64) (resp LoanData, err error) {
@@ -53,6 +55,7 @@ func (l *loan) GetLoanByID(ID int64) (resp LoanData, err error) {
 	resp = LoanData{
 		ID:                   data.ID,
 		Name:                 data.Name,
+		CustomerID:           data.CustomerID,
 		Amount:               data.Amount,
 		AmountInterest:       data.AmountInterest,
 		AnnualRatePrecentage: data.AnnualRatePrecentage,
@@ -88,6 +91,7 @@ func (l *loan) GetLoanByID(ID int64) (resp LoanData, err error) {
 
 		resp.Details = append(resp.Details, LoanDataDetails{
 			ID:        loanData.ID,
+			LoanID:    loanData.LoanID,
 			Name:      loanData.Name,
 			Amount:    loanData.Amount,
 			StartDate: startDate,

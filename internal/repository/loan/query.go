@@ -3,10 +3,10 @@ package loan
 const (
 	queryGetLoanByCustomerID = `
 		SELECT
-			id, 
+			ID, 
 			customer_id, 
 			name, 
-			ammount, 
+			amount, 
 			amount_interest, 
 			annual_rate_precentage, 
 			start_date, 
@@ -20,10 +20,10 @@ const (
 
 	queryGetLoanByCustomerIDAllStatus = `
 		SELECT
-			id, 
+			ID, 
 			customer_id, 
 			name, 
-			ammount, 
+			amount, 
 			amount_interest, 
 			annual_rate_precentage, 
 			start_date, 
@@ -37,10 +37,10 @@ const (
 
 	queryGetLoanByID = `
 		SELECT
-			id, 
+			ID, 
 			customer_id, 
 			name, 
-			ammount, 
+			amount, 
 			amount_interest, 
 			annual_rate_precentage, 
 			start_date, 
@@ -54,7 +54,7 @@ const (
 
 	queryGetLoanDetails = `
 		SELECT
-			id,
+			ID,
 			loan_id,
 			name,
 			amount,
@@ -69,7 +69,7 @@ const (
 
 	queryGetLoanDetailsByLoanID = `
 		SELECT
-			id,
+			ID,
 			loan_id,
 			name,
 			amount,
@@ -84,19 +84,20 @@ const (
 
 	execInserLoan = `
 		INSERT INTO 
-			loan (customer_id, name, ammount, amount_interest, annual_rate_precentage, start_date, end_date, status)
+			loan (customer_id, name, amount, amount_interest, annual_rate_precentage, start_date, end_date, status)
 		VALUES
-			(?, ?, ?, ?, ?, ?, ?, ?, ?)`
+			(?, ?, ?, ?, ?, ?, ?, ?)
+		RETURNING id`
 
 	execInsertLoanDetails = `
 		INSERT INTO 
-			loan_details (loan_id, week_name, amount, status, start_date, end_date, payment_id)
+			loan_details (loan_id, name, amount, status, start_date, end_date, payment_id)
 		VALUES
 			(?, ?, ?, ?, ?, ?, ?)`
 
 	execInsertMultiLoanDetails = `
 		INSERT INTO 
-			loan_details (loan_id, week_name, amount, status, start_date, end_date, payment_id)
+			loan_details (loan_id, name, amount, status, start_date, end_date, payment_id)
 		VALUES
 			%s`
 

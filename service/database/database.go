@@ -84,8 +84,9 @@ func GetDBConn(dbName ConnectionName) (*dbConn, error) {
 func Connect(dbName string) (db *sql.DB, err error) {
 	log.Println("connect ", dbName)
 	db, err = sql.Open("sqlite3", dbName)
+
 	if err != nil {
-		log.Fatal("connect, ", err)
+		log.Fatal("connect 2, ", err)
 	}
 	return
 }

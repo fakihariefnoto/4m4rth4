@@ -23,7 +23,7 @@ func (p *payment) MakePayment(paymentReq PaymentReq) error {
 		return errors.New("Invalid amount")
 	}
 
-	summary := fmt.Sprintf("Payment for loan details %s with amount %f", paymentReq.LoanDetailsID, paymentReq.Amount)
+	summary := fmt.Sprintf("Payment for loan details %d with amount %f", paymentReq.LoanDetailsID, paymentReq.Amount)
 	details := fmt.Sprintf(`
 		User : %v
 		Loan Details ID : %v
@@ -40,7 +40,7 @@ func (p *payment) MakePayment(paymentReq PaymentReq) error {
 		Status:     paymentModel.PaymentStatusReceived,
 	})
 	if err != nil {
-		log.Println("Error when inser payment ", err)
+		log.Println("Error when insert payment ", err)
 		return err
 	}
 
