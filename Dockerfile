@@ -9,8 +9,8 @@ RUN go mod download
 
 COPY *.go ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /amartha-billing
+RUN CGO_ENABLED=0 GOOS=linux go build -o /billing
 
 EXPOSE 9000
 
-CMD ["/amartha-billing"]
+CMD ["/billing"]
