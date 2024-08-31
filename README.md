@@ -41,6 +41,8 @@ POST api/v1/CreateCustomer
 
 ### Cronjob to update status of customer
 
+currently no need, credit status customer can be get on the fly for now
+
 ## How To Build/Run
 
 ### Golang
