@@ -48,7 +48,16 @@ currently no need, credit status customer can be get on the fly for now
 ### Golang
 #### Prerequiested
 
-- Go 1.21 above already installed 
+- Go 1.14 above already installed (tested with 1.23, but should be compatible as long above go 1.11 (go module))
+- Git
+
+#### Download the code
+
+ssh `git clone git@github.com:fakihariefnoto/4m4rth4.git`
+
+or
+
+https `git clone https://github.com/fakihariefnoto/4m4rth4.git`
 
 #### Build & Run
 
