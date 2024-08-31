@@ -3,6 +3,7 @@ package customer
 import (
 	// customerModel "billing/internal/model/customer/"
 	customerRepository "billingapp/internal/repository/customer"
+	loanRepository "billingapp/internal/repository/loan"
 )
 
 type (
@@ -14,11 +15,13 @@ type (
 
 	customer struct {
 		customerRepo customerRepository.ICustomer
+		loanRepo     loanRepository.ILoan
 	}
 )
 
-func New(customerRepo customerRepository.ICustomer) ICustomer {
+func New(customerRepo customerRepository.ICustomer, loanRepo loanRepository.ILoan) ICustomer {
 	return &customer{
 		customerRepo: customerRepo,
+		loanRepo:     loanRepo,
 	}
 }

@@ -23,9 +23,35 @@ func (l *loan) GetLoanListByCustomerID(ID int64, status ...loanModel.LoanStatus)
 		return nil, err
 	}
 
+	now := time.Now()
+
 	for _, loanData := range data {
 		startDate := loanData.StartDate.Format("2006-01-02 15:04:05")
 		endDate := loanData.EndDate.Format("2006-01-02 15:04:05")
+
+		var overdueCounter int
+		dataDetails, err := l.loanRepo.GetLoanDetailsByLoanID(context.Background(), loanData.ID)
+		if err != nil {
+			return nil, err
+		}
+		for _, loanData := range dataDetails {
+			status := LoanDetailsStatusToString(loanData.Status)
+			if status != LoanDetailStatusPaidString {
+				if loanData.EndDate.Before(now) {
+					status = LoanDetailStatusOverDueString
+				}
+				if loanData.StartDate.Before(now) && loanData.EndDate.After(now) {
+					status = LoanDetailStatusUnpaidString
+				}
+				if loanData.StartDate.After(now) {
+					status = LoanDetailStatusNotDueString
+				}
+			}
+
+			if status == LoanDetailStatusOverDueString {
+				overdueCounter++
+			}
+		}
 
 		resp = append(resp, LoanData{
 			ID:                   loanData.ID,
@@ -37,6 +63,7 @@ func (l *loan) GetLoanListByCustomerID(ID int64, status ...loanModel.LoanStatus)
 			StartDate:            startDate,
 			EndDate:              endDate,
 			Status:               LoanStatusToString(loanData.Status),
+			OverDueCounter:       overdueCounter,
 		})
 	}
 

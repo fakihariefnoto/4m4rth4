@@ -51,7 +51,7 @@ func (p *presenter) IsDelinquent(c *fiber.Ctx) error {
 		})
 	}
 
-	resp, err := p.customerUse.GetCustomerData(customerID)
+	resp, err := p.customerUse.IsDelinquent(customerID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": true,

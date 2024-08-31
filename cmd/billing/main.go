@@ -86,7 +86,7 @@ func main() {
 
 	startInit("usecase")
 	loanUse := loanUsecase.New(loanRepo)
-	customerUse := customerUsecase.New(customerRepo)
+	customerUse := customerUsecase.New(customerRepo, loanRepo)
 	paymentUse := paymentUsecase.New(paymentRepo, loanRepo)
 	finishInit("usecase")
 

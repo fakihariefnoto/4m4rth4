@@ -28,6 +28,7 @@ type (
 		TotalPaid            float64           `json:"total_paid"`
 		TotalBorrowed        float64           `json:"total_borrowed"`
 		OutStanding          float64           `json:"outstanding_balance"`
+		OverDueCounter       int
 	}
 
 	LoanDataDetails struct {
