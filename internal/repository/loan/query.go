@@ -108,7 +108,7 @@ const (
 			status = ?,
 			payment_id = ?
 		WHERE
-			loan_id = ?`
+			id = ?`
 
 	execUpdateLoanStatus = `
 		UPDATE

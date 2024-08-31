@@ -256,9 +256,9 @@ func (q *loan) UpdateLoanStatus(ctx context.Context, loanID int64, status loanMo
 
 func (q *loan) UpdateLoanDetailsStatus(ctx context.Context, loanDetailsID int64, paymentID int64, status loanModel.LoanDetailStatus) error {
 	_, err := q.db.ExecContext(ctx, execUpdateLoanDetailsStatus,
-		loanDetailsID,
-		paymentID,
 		status,
+		paymentID,
+		loanDetailsID,
 	)
 	return err
 }

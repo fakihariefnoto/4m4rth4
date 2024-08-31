@@ -124,6 +124,7 @@ func (l *loan) GetLoanByID(ID int64) (resp LoanData, err error) {
 			StartDate: startDate,
 			EndDate:   endDate,
 			Status:    status,
+			PaymentID: loanData.PaymentID,
 		})
 	}
 
